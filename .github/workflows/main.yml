@@ -20,8 +20,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pymongo requests beautifulsoup4
-        # Thêm bất kỳ thư viện nào bạn dùng trong script
+        pip install pymongo python-dateutil pytz
+        pip install git+https://github.com/crawl4ai/crawl4ai.git
 
     - name: Run script
       run: python crawl_full_wcctech.py
