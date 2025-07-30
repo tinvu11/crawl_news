@@ -1,0 +1,42 @@
+# Tên của workflow, sẽ hiển thị trong tab "Actions" trên GitHub
+name: Hourly Web Crawler
+
+# Điều kiện kích hoạt workflow
+on:
+  # Chạy theo lịch trình: '0 * * * *' nghĩa là chạy vào phút thứ 0 của mỗi giờ
+  schedule:
+    - cron: '0 * * * *'
+  
+  # Cho phép chạy thủ công từ tab Actions để kiểm tra
+  workflow_dispatch:
+
+# Các công việc (jobs) cần thực hiện
+jobs:
+  run-crawler:
+    # Sử dụng môi trường máy ảo Ubuntu mới nhất
+    runs-on: ubuntu-latest
+
+    # Các bước thực thi tuần tự
+    steps:
+      # 1. Checkout code từ repository về máy ảo
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # 2. Cài đặt môi trường Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Bạn có thể chọn phiên bản Python khác nếu muốn
+
+      # 3. Cài đặt các thư viện từ file requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. Chạy script Python
+      - name: Run Python script
+        # Cung cấp secret MONGO_URI dưới dạng biến môi trường cho script
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python crawler.py
