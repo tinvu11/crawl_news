@@ -1,0 +1,5 @@
+pymongo
+python-dateutil
+pytz
+crawl4ai
+dnspython

@@ -1,3 +1,4 @@
+import os
 import asyncio
 from pymongo import MongoClient
 import re
@@ -126,9 +127,12 @@ def save_to_mongodb(data, db_collection):
 async def run_full_pipeline_crawler():
 
     # --- PHẦN CẤU HÌNH MONGODB ---
+    MONGO_CONNECTION_STRING = os.environ.get('MONGO_URI')
+    if not MONGO_CONNECTION_STRING:
+        print("Lỗi: Biến môi trường MONGO_URI chưa được thiết lập!")
+        return
     try:
-        # client = MongoClient("mongodb://localhost:27017/")
-        client = MongoClient("mongodb+srv://tinvu:301104Tin%40@articles.cllknkq.mongodb.net/?retryWrites=true&w=majority&appName=articles")
+        client = MongoClient(MONGO_CONNECTION_STRING)
         db = client["news-database"]
         articles_collection = db["articles"]
         print("Kết nối MongoDB thành công.")
