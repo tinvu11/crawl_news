@@ -183,7 +183,7 @@ async def run_full_pipeline_crawler():
                 config = CrawlerRunConfig(
                         deep_crawl_strategy=BestFirstCrawlingStrategy(
                             max_depth=1,
-                            max_pages= 30, # Giới hạn 30 trang để test nhanh
+                            max_pages= 10, # Giới hạn 30 trang để test nhanh
                             filter_chain=filter_chain,
                             url_scorer=keyword_scorer,
                         ),
